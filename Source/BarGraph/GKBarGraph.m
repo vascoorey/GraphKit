@@ -25,7 +25,6 @@
 
 #import "GKBarGraph.h"
 
-#import <FrameAccessor/FrameAccessor.h>
 #import <MKFoundationKit/NSArray+MK.h>
 
 #import "GKBar.h"
@@ -136,7 +135,7 @@ static CGFloat kDefaultAnimationDuration = 2.0;
 }
 
 - (CGFloat)_barStartX {
-    CGFloat result = self.width;
+    CGFloat result = self.frame.size.width;
     CGFloat item = [self _barSpace];
     NSInteger count = [self.dataSource numberOfBarsInBarGraph:self];
     
@@ -150,7 +149,7 @@ static CGFloat kDefaultAnimationDuration = 2.0;
 }
 
 - (CGFloat)_barStartY {
-    return (self.height - self.barHeight);
+    return (self.frame.size.height - self.barHeight);
 }
 
 - (BOOL)_hasLabels {
@@ -188,16 +187,20 @@ static CGFloat kDefaultAnimationDuration = 2.0;
         
         CGFloat labelWidth = kDefaultLabelWidth;
         CGFloat labelHeight = kDefaultLabelHeight;
-        CGFloat startX = bar.x - ((labelWidth - self.barWidth) / 2);
-        CGFloat startY = (self.height - labelHeight);
+        CGFloat startX = bar.frame.origin.x - ((labelWidth - self.barWidth) / 2);
+        CGFloat startY = (self.frame.size.height - labelHeight);
         
         UILabel *label = [self.labels objectAtIndex:idx];
-        label.x = startX;
-        label.y = startY;
-        
+        CGRect labelFrame = label.frame;
+        labelFrame.origin = CGPointMake(startX, startY);
+        label.frame = labelFrame;
+      
         [self addSubview:label];
         
-        bar.y -= labelHeight + 5;
+        CGRect barFrame = bar.frame;
+        barFrame.origin = CGPointMake(barFrame.origin.x, barFrame.origin.y - (labelHeight + 5));
+        bar.frame = barFrame;
+
         idx++;
     }];
 }

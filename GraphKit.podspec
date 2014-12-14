@@ -21,6 +21,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Source/**/*.{h,m}'
   s.requires_arc = true
 
-  s.dependency 'FrameAccessor', '~> 1.3.2'
   s.dependency 'MKFoundationKit/NSArray', '~> 1.2.2'
 end

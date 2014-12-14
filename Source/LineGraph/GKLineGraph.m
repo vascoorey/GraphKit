@@ -25,7 +25,6 @@
 
 #import "GKLineGraph.h"
 
-#import <FrameAccessor/FrameAccessor.h>
 #import <MKFoundationKit/NSArray+MK.h>
 
 static CGFloat kDefaultLabelWidth = 40.0;
@@ -127,11 +126,11 @@ static CGFloat kAxisMargin = 50.0;
         CGFloat labelWidth = kDefaultLabelWidth;
         CGFloat labelHeight = kDefaultLabelHeight;
         CGFloat startX = [self _pointXForIndex:idx] - (labelWidth / 2);
-        CGFloat startY = (self.height - labelHeight);
+        CGFloat startY = (self.frame.size.height - labelHeight);
         
         UILabel *label = [self.titleLabels objectAtIndex:idx];
-        label.x = startX;
-        label.y = startY;
+        CGRect labelFrame = label.frame;
+        labelFrame.origin = CGPointMake(startX, startY);
         
         [self addSubview:label];
 
@@ -163,7 +162,7 @@ static CGFloat kAxisMargin = 50.0;
         item.textColor = [UIColor lightGrayColor];
     
         CGFloat value = [self _minValue] + (idx * [self _stepValueLabelY]);
-        item.centerY = [self _positionYForLineValue:value];
+        item.center = CGPointMake(item.center.x, [self _positionYForLineValue:value]);
         
         item.text = [@(ceil(value)) stringValue];
 //        item.text = [@(value) stringValue];
@@ -207,11 +206,11 @@ static CGFloat kAxisMargin = 50.0;
 }
 
 - (CGFloat)_plotWidth {
-    return (self.width - (2 * self.margin) - kAxisMargin);
+    return (self.frame.size.width - (2 * self.margin) - kAxisMargin);
 }
 
 - (CGFloat)_plotHeight {
-    return (self.height - (2 * kDefaultLabelHeight + kDefaultMarginBottom));
+    return (self.frame.size.height - (2 * kDefaultLabelHeight + kDefaultMarginBottom));
 }
 
 - (void)_drawLines {
