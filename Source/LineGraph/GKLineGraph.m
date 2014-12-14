@@ -95,7 +95,7 @@ static CGFloat kAxisMargin = 50.0;
 
 - (void)_constructTitleLabels {
     
-    NSInteger count = [[self.dataSource valuesForLineAtIndex:0] count];
+    NSInteger count = [[self.dataSource lineGraph:self valuesForLineAtIndex:0] count];
     id items = [NSMutableArray arrayWithCapacity:count];
     for (NSInteger idx = 0; idx < count; idx++) {
         
@@ -104,7 +104,7 @@ static CGFloat kAxisMargin = 50.0;
         item.textAlignment = NSTextAlignmentCenter;
         item.font = [UIFont boldSystemFontOfSize:12];
         item.textColor = [UIColor lightGrayColor];
-        item.text = [self.dataSource titleForLineAtIndex:idx];
+        item.text = [self.dataSource lineGraph:self titleForLineAtIndex:idx];
         
         [items addObject:item];
     }
@@ -121,7 +121,7 @@ static CGFloat kAxisMargin = 50.0;
 - (void)_positionTitleLabels {
     
     __block NSInteger idx = 0;
-    id values = [self.dataSource valuesForLineAtIndex:0];
+    id values = [self.dataSource lineGraph:self valuesForLineAtIndex:0];
     [values mk_each:^(id value) {
         
         CGFloat labelWidth = kDefaultLabelWidth;
@@ -144,7 +144,7 @@ static CGFloat kAxisMargin = 50.0;
 }
 
 - (CGFloat)_stepX {
-    id values = [self.dataSource valuesForLineAtIndex:0];
+    id values = [self.dataSource lineGraph:self valuesForLineAtIndex:0];
     CGFloat result = ([self _plotWidth] / [values count]);
     return result;
 }
@@ -190,10 +190,10 @@ static CGFloat kAxisMargin = 50.0;
 }
 
 - (NSArray *)_allValues {
-    NSInteger count = [self.dataSource numberOfLines];
+    NSInteger count = [self.dataSource numberOfLinesInLineGraph:self];
     id values = [NSMutableArray array];
     for (NSInteger idx = 0; idx < count; idx++) {
-        id item = [self.dataSource valuesForLineAtIndex:idx];
+        id item = [self.dataSource lineGraph:self valuesForLineAtIndex:idx];
         [values addObjectsFromArray:item];
     }
     return values;
@@ -215,7 +215,7 @@ static CGFloat kAxisMargin = 50.0;
 }
 
 - (void)_drawLines {
-    for (NSInteger idx = 0; idx < [self.dataSource numberOfLines]; idx++) {
+    for (NSInteger idx = 0; idx < [self.dataSource numberOfLinesInLineGraph:self]; idx++) {
         [self _drawLineAtIndex:idx];
     }
 }
@@ -228,12 +228,12 @@ static CGFloat kAxisMargin = 50.0;
     UIBezierPath *path = [self _bezierPathWith:0];
     CAShapeLayer *layer = [self _layerWithPath:path];
     
-    layer.strokeColor = [[self.dataSource colorForLineAtIndex:index] CGColor];
+    layer.strokeColor = [[self.dataSource lineGraph:self colorForLineAtIndex:index] CGColor];
     
     [self.layer addSublayer:layer];
     
     NSInteger idx = 0;
-    id values = [self.dataSource valuesForLineAtIndex:index];
+    id values = [self.dataSource lineGraph:self valuesForLineAtIndex:index];
     for (id item in values) {
 
         CGFloat x = [self _pointXForIndex:idx];
@@ -250,8 +250,8 @@ static CGFloat kAxisMargin = 50.0;
     
     if (self.animated) {
         CABasicAnimation *animation = [self _animationWithKeyPath:@"strokeEnd"];
-        if ([self.dataSource respondsToSelector:@selector(animationDurationForLineAtIndex:)]) {
-            animation.duration = [self.dataSource animationDurationForLineAtIndex:index];
+        if ([self.dataSource respondsToSelector:@selector(lineGraph:animationDurationForLineAtIndex:)]) {
+            animation.duration = [self.dataSource lineGraph:self animationDurationForLineAtIndex:index];
         }
         [layer addAnimation:animation forKey:@"strokeEndAnimation"];
     }

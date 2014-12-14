@@ -49,14 +49,14 @@
 
 @protocol GKBarGraphDataSource <NSObject>
 
-- (NSInteger)numberOfBars;
-- (NSNumber *)valueForBarAtIndex:(NSInteger)index;
+- (NSInteger)numberOfBarsInBarGraph:(GKBarGraph *)barGraph;
+- (NSNumber *)barGraph:(GKBarGraph *)barGraph valueForBarAtIndex:(NSInteger)index;
 
 @optional
-- (UIColor *)colorForBarAtIndex:(NSInteger)index;
-- (UIColor *)colorForBarBackgroundAtIndex:(NSInteger)index;
-- (CFTimeInterval)animationDurationForBarAtIndex:(NSInteger)index;
+- (UIColor *)barGraph:(GKBarGraph *)barGraph colorForBarAtIndex:(NSInteger)index;
+- (UIColor *)barGraph:(GKBarGraph *)barGraph colorForBarBackgroundAtIndex:(NSInteger)index;
+- (CFTimeInterval)barGraph:(GKBarGraph *)barGraph animationDurationForBarAtIndex:(NSInteger)index;
 
-- (NSString *)titleForBarAtIndex:(NSInteger)index;
+- (NSString *)barGraph:(GKBarGraph *)barGraph titleForBarAtIndex:(NSInteger)index;
 
 @end

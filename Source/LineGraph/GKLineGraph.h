@@ -50,13 +50,13 @@
 
 @protocol GKLineGraphDataSource <NSObject>
 
-- (NSInteger)numberOfLines;
-- (UIColor *)colorForLineAtIndex:(NSInteger)index;
-- (NSArray *)valuesForLineAtIndex:(NSInteger)index;
+- (NSInteger)numberOfLinesInLineGraph:(GKLineGraph *)lineGraph;
+- (UIColor *)lineGraph:(GKLineGraph *)lineGraph colorForLineAtIndex:(NSInteger)index;
+- (NSArray *)lineGraph:(GKLineGraph *)lineGraph valuesForLineAtIndex:(NSInteger)index;
 
 @optional
-- (CFTimeInterval)animationDurationForLineAtIndex:(NSInteger)index;
+- (CFTimeInterval)lineGraph:(GKLineGraph *)lineGraph animationDurationForLineAtIndex:(NSInteger)index;
 
-- (NSString *)titleForLineAtIndex:(NSInteger)index;
+- (NSString *)lineGraph:(GKLineGraph *)lineGraph titleForLineAtIndex:(NSInteger)index;
 
 @end

@@ -61,15 +61,15 @@
 
 #pragma mark - GKBarGraphDataSource
 
-- (NSInteger)numberOfBars {
+- (NSInteger)numberOfBarsInBarGraph:(GKBarGraph *)barGraph {
     return [self.data count];
 }
 
-- (NSNumber *)valueForBarAtIndex:(NSInteger)index {
+- (NSNumber *)barGraph:(GKBarGraph *)barGraph valueForBarAtIndex:(NSInteger)index {
     return [self.data objectAtIndex:index];
 }
 
-- (UIColor *)colorForBarAtIndex:(NSInteger)index {
+- (UIColor *)barGraph:(GKBarGraph *)barGraph colorForBarAtIndex:(NSInteger)index {
     id colors = @[[UIColor gk_turquoiseColor],
                   [UIColor gk_peterRiverColor],
                   [UIColor gk_alizarinColor],
@@ -84,13 +84,13 @@
 //    return [UIColor redColor];
 //}
 
-- (CFTimeInterval)animationDurationForBarAtIndex:(NSInteger)index {
-    CGFloat percentage = [[self valueForBarAtIndex:index] doubleValue];
+- (CFTimeInterval)barGraph:(GKBarGraph *)barGraph animationDurationForBarAtIndex:(NSInteger)index {
+    CGFloat percentage = [[self barGraph:barGraph valueForBarAtIndex:index] doubleValue];
     percentage = (percentage / 100);
     return (self.graphView.animationDuration * percentage);
 }
 
-- (NSString *)titleForBarAtIndex:(NSInteger)index {
+- (NSString *)barGraph:(GKBarGraph *)barGraph titleForBarAtIndex:(NSInteger)index {
     return [self.labels objectAtIndex:index];
 }
 

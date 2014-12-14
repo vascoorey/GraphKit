@@ -112,11 +112,11 @@
 
 #pragma mark - GKLineGraphDataSource
 
-- (NSInteger)numberOfLines {
+- (NSInteger)numberOfLinesInLineGraph:(GKLineGraph *)lineGraph {
     return [self.data count];
 }
 
-- (UIColor *)colorForLineAtIndex:(NSInteger)index {
+- (UIColor *)lineGraph:(GKLineGraph *)lineGraph colorForLineAtIndex:(NSInteger)index {
     id colors = @[[UIColor gk_turquoiseColor],
                   [UIColor gk_peterRiverColor],
                   [UIColor gk_alizarinColor],
@@ -125,15 +125,15 @@
     return [colors objectAtIndex:index];
 }
 
-- (NSArray *)valuesForLineAtIndex:(NSInteger)index {
+- (NSArray *)lineGraph:(GKLineGraph *)lineGraph valuesForLineAtIndex:(NSInteger)index {
     return [self.data objectAtIndex:index];
 }
 
-- (CFTimeInterval)animationDurationForLineAtIndex:(NSInteger)index {
+- (CFTimeInterval)lineGraph:(GKLineGraph *)lineGraph animationDurationForLineAtIndex:(NSInteger)index {
     return [[@[@1, @1.6, @2.2, @1.4] objectAtIndex:index] doubleValue];
 }
 
-- (NSString *)titleForLineAtIndex:(NSInteger)index {
+- (NSString *)lineGraph:(GKLineGraph *)lineGraph titleForLineAtIndex:(NSInteger)index {
     return [self.labels objectAtIndex:index];
 }
 

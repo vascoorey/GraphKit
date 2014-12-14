@@ -108,7 +108,7 @@ static CGFloat kDefaultAnimationDuration = 2.0;
 }
 
 - (void)_constructBars {
-    NSInteger count = [self.dataSource numberOfBars];
+    NSInteger count = [self.dataSource numberOfBarsInBarGraph:self];
     id items = [NSMutableArray arrayWithCapacity:count];
     for (NSInteger idx = 0; idx < count; idx++) {
         GKBar *item = [GKBar create];
@@ -138,7 +138,7 @@ static CGFloat kDefaultAnimationDuration = 2.0;
 - (CGFloat)_barStartX {
     CGFloat result = self.width;
     CGFloat item = [self _barSpace];
-    NSInteger count = [self.dataSource numberOfBars];
+    NSInteger count = [self.dataSource numberOfBarsInBarGraph:self];
     
     result = result - (item * count) + self.marginBar;
     result = (result / 2);
@@ -159,7 +159,7 @@ static CGFloat kDefaultAnimationDuration = 2.0;
 
 - (void)_constructLabels {
     
-    NSInteger count = [self.dataSource numberOfBars];
+    NSInteger count = [self.dataSource numberOfBarsInBarGraph:self];
     id items = [NSMutableArray arrayWithCapacity:count];
     for (NSInteger idx = 0; idx < count; idx++) {
         
@@ -168,7 +168,7 @@ static CGFloat kDefaultAnimationDuration = 2.0;
         item.textAlignment = NSTextAlignmentCenter;
         item.font = [UIFont boldSystemFontOfSize:13];
         item.textColor = [UIColor lightGrayColor];
-        item.text = [self.dataSource titleForBarAtIndex:idx];
+        item.text = [self.dataSource barGraph:self titleForBarAtIndex:idx];
         
         [items addObject:item];
     }
@@ -207,19 +207,19 @@ static CGFloat kDefaultAnimationDuration = 2.0;
     id source = self.dataSource;
     [self.bars mk_each:^(GKBar *item) {
         
-        if ([source respondsToSelector:@selector(animationDurationForBarAtIndex:)]) {
-            item.animationDuration = [source animationDurationForBarAtIndex:idx];
+        if ([source respondsToSelector:@selector(barGraph:animationDurationForBarAtIndex:)]) {
+            item.animationDuration = [source barGraph:self animationDurationForBarAtIndex:idx];
         }
         
-        if ([source respondsToSelector:@selector(colorForBarAtIndex:)]) {
-            item.foregroundColor = [source colorForBarAtIndex:idx];
+        if ([source respondsToSelector:@selector(barGraph:colorForBarAtIndex:)]) {
+            item.foregroundColor = [source barGraph:self colorForBarAtIndex:idx];
         }
         
-        if ([source respondsToSelector:@selector(colorForBarBackgroundAtIndex:)]) {
-            item.backgroundColor = [source colorForBarBackgroundAtIndex:idx];
+        if ([source respondsToSelector:@selector(barGraph:colorForBarBackgroundAtIndex:)]) {
+            item.backgroundColor = [source barGraph:self colorForBarBackgroundAtIndex:idx];
         }
         
-        item.percentage = [[source valueForBarAtIndex:idx] doubleValue];
+        item.percentage = [[source barGraph:self valueForBarAtIndex:idx] doubleValue];
         idx++;
     }];
 }
