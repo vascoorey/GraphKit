@@ -259,6 +259,10 @@ static CGFloat kAxisMargin = 50.0;
 }
 
 - (CGFloat)_positionYForLineValue:(CGFloat)value {
+    if([self _maxValue] == [self _minValue]) {
+        return 0;
+    }
+    
     CGFloat scale = (value - [self _minValue]) / ([self _maxValue] - [self _minValue]);
     CGFloat result = [self _plotHeight] * scale;
     result = ([self _plotHeight] -  result);
